@@ -1,8 +1,14 @@
+import { loadSwaggerSetup, loadEnvironmentConfig } from '@Infra/configuration';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  const { port } = loadEnvironmentConfig();
+
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+
+  loadSwaggerSetup(app);
+
+  await app.listen(port);
 }
 bootstrap();
