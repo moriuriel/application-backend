@@ -11,7 +11,8 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@Infra/*":["./src/infrastructure/*"]
+      "@Infra/*":["./src/infrastructure/*"],
+      "@Modules/*":["./src/modules/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
