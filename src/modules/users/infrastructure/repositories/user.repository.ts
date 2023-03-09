@@ -5,13 +5,14 @@ import {
 } from '@Modules/users/domain/entites/user.entity';
 import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(user: User): Promise<UnmarshalledUser> {
-    await this.prismaService.users.create({
+    const userRaw = await this.prismaService.users.create({
       data: {
         name: user.name,
         email: user.email,
@@ -19,6 +20,6 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    return user.unmarshal();
+    return UserMapper.toDomain(userRaw);
   }
 }

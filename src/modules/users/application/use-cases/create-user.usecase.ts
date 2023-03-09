@@ -24,8 +24,8 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       password: input.password,
     });
 
-    await this.userRepository.create(user);
+    const createdUser = await this.userRepository.create(user);
 
-    return user.unmarshal();
+    return createdUser;
   }
 }
