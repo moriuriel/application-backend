@@ -1,4 +1,4 @@
-import { PrismaService } from '@Infra/prisma';
+import { CreateUserUseCase } from '@Modules/users/application/use-cases';
 import {
   Body,
   Controller,
@@ -13,10 +13,11 @@ import { CreateUserDto, CreateUserOutput } from './dtos/create-user.dto';
 @Controller({ path: 'users', version: '1' })
 @ApiTags('Usuários')
 export class UserController {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly createUserUsecase: CreateUserUseCase) {}
   @Post()
   @ApiCreatedResponse({ type: CreateUserOutput })
-  create(@Body() body: CreateUserDto, @Res() response: Response) {
-    return response.status(HttpStatus.CREATED).json(body);
+  async create(@Body() body: CreateUserDto, @Res() response: Response) {
+    const output = await this.createUserUsecase.execute(body);
+    return response.status(HttpStatus.CREATED).json(output);
   }
 }
