@@ -1,6 +1,7 @@
+import { Hasher } from '@Data/protocols/cryptography';
 import { User } from '@Modules/users/domain/entites/user.entity';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 type CreateUserInput = {
   id?: string;
@@ -15,7 +16,10 @@ export interface ICreateUserUseCase {
 
 @Injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    @Inject('CryptographyAdapter') private readonly haser: Hasher,
+  ) {}
 
   public async execute(input: CreateUserInput): Promise<CreateUserInput> {
     const user = new User({
