@@ -9,9 +9,13 @@ export class CreateUserDto {
   password: string;
 }
 
-export class CreateUserOutput extends CreateUserDto {
+export class CreateUserOutput {
   @ApiProperty()
   id: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  email: string;
   @ApiProperty()
   createdAt: Date;
   @ApiProperty()
