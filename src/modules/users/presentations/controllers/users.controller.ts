@@ -1,10 +1,14 @@
+import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
 import { CreateUserUseCase } from '@Modules/users/application/use-cases';
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
+  Request,
   Response as Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -20,5 +24,11 @@ export class UserController {
     const output = await this.createUserUsecase.execute(body);
 
     return response.status(HttpStatus.CREATED).json(output);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/me')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
