@@ -13,7 +13,9 @@ import { BcryptAdapter } from '@Infra/cryptography';
     UserRepository,
     {
       provide: 'CryptographyAdapter',
-      useClass: BcryptAdapter,
+      useFactory: () => {
+        return new BcryptAdapter(10);
+      },
     },
   ],
 })
