@@ -1,8 +1,5 @@
 import { PrismaService } from '@Infra/prisma';
-import {
-  User,
-  UnmarshalledUser,
-} from '@Modules/users/domain/entites/user.entity';
+import { User } from '@Modules/users/domain/entites/user.entity';
 import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
 import { UserMapper } from '../mappers/user.mapper';
@@ -11,13 +8,21 @@ import { UserMapper } from '../mappers/user.mapper';
 export class UserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(user: User): Promise<UnmarshalledUser> {
+  async create(user: User): Promise<User> {
     const userRaw = await this.prismaService.users.create({
       data: {
         name: user.name,
         email: user.email,
         password: user.password,
       },
+    });
+
+    return UserMapper.toDomain(userRaw);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const userRaw = await this.prismaService.users.findUnique({
+      where: { email },
     });
 
     return UserMapper.toDomain(userRaw);

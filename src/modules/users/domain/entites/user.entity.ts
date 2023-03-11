@@ -3,6 +3,8 @@ export type UnmarshalledUser = {
   name: string;
   email: string;
   password: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export class User {
@@ -13,9 +15,12 @@ export class User {
   }
 
   public static create(props: UnmarshalledUser) {
-    const instance = new User(props);
+    if (props?.id) {
+      const instance = new User(props);
 
-    return instance;
+      return instance;
+    }
+    return null;
   }
 
   public unmarshal(): UnmarshalledUser {
@@ -38,7 +43,15 @@ export class User {
   public get email(): string {
     return this.user.email;
   }
+
   public get password(): string {
     return this.user.password;
+  }
+
+  public get createdAt(): string {
+    return this.user.createdAt;
+  }
+  public get updatedAt(): string {
+    return this.user.updatedAt;
   }
 }

@@ -1,7 +1,15 @@
 import { Hasher } from '@Data/protocols/cryptography';
 import { User } from '@Modules/users/domain/entites/user.entity';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  CreateUserPresenter,
+  CreateUserOutput,
+} from '@Modules/users/presentations/presenter/create-user.presenter';
+import {
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 
 type CreateUserInput = {
   id?: string;
@@ -11,7 +19,7 @@ type CreateUserInput = {
 };
 
 export interface ICreateUserUseCase {
-  execute(input: CreateUserInput): Promise<CreateUserInput>;
+  execute(input: CreateUserInput): Promise<CreateUserOutput>;
 }
 
 @Injectable()
@@ -21,15 +29,25 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     @Inject('CryptographyAdapter') private readonly haser: Hasher,
   ) {}
 
-  public async execute(input: CreateUserInput): Promise<CreateUserInput> {
+  public async execute(input: CreateUserInput): Promise<CreateUserOutput> {
+    const userAlereadyExists = await this.userRepository.findByEmail(
+      input.email,
+    );
+
+    if (userAlereadyExists) {
+      throw new UnprocessableEntityException('User Aleready Exists');
+    }
+
+    const hasedPassword = await this.haser.hash(input.password);
+
     const user = new User({
       name: input.name,
       email: input.email,
-      password: input.password,
+      password: hasedPassword,
     });
 
     const createdUser = await this.userRepository.create(user);
 
-    return createdUser;
+    return CreateUserPresenter.output(createdUser);
   }
 }
