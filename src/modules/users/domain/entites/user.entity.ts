@@ -3,8 +3,8 @@ export type UnmarshalledUser = {
   name: string;
   email: string;
   password: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class User {
@@ -48,10 +48,10 @@ export class User {
     return this.user.password;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this.user.createdAt;
   }
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this.user.updatedAt;
   }
 }

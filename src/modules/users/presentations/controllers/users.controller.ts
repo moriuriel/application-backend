@@ -18,6 +18,7 @@ export class UserController {
   @ApiCreatedResponse({ type: CreateUserOutput })
   async create(@Body() body: CreateUserDto, @Res() response: Response) {
     const output = await this.createUserUsecase.execute(body);
+
     return response.status(HttpStatus.CREATED).json(output);
   }
 }
