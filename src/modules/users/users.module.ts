@@ -18,5 +18,6 @@ import { BcryptAdapter } from '@Infra/cryptography';
       },
     },
   ],
+  exports: [UserRepository],
 })
 export class UsersModule {}
