@@ -44,6 +44,8 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       name: input.name,
       email: input.email,
       password: hasedPassword,
+      isActive: false,
+      isConfirmed: false,
     });
 
     const createdUser = await this.userRepository.create(user);
