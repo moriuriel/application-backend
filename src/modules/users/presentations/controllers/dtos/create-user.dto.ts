@@ -9,7 +9,7 @@ export class CreateUserDto {
   password: string;
 }
 
-export class CreateUserOutput {
+export class UserOutput {
   @ApiProperty()
   id: string;
   @ApiProperty()
@@ -20,4 +20,8 @@ export class CreateUserOutput {
   createdAt: Date;
   @ApiProperty()
   updatedAt: Date;
+  @ApiProperty()
+  isActive: boolean;
+  @ApiProperty()
+  isConfirmed: boolean;
 }

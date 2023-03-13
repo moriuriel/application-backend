@@ -6,6 +6,8 @@ export type UserOutput = {
   email: string;
   createdAt: Date;
   updatedAt: Date;
+  isActive: boolean;
+  isConfirmed: boolean;
 };
 
 export class UserPresenter {
@@ -16,6 +18,8 @@ export class UserPresenter {
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      isActive: user.isActive,
+      isConfirmed: user.isConfirmed,
     };
   }
 }
