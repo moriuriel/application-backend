@@ -1,21 +1,17 @@
 import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
 import { InMemoryUserRepository } from '@Modules/users/infrastructure/repositories/InMemory/inMemoryUser.repository';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
+import { UnprocessableEntityException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { CreateUserUseCase } from './create-user.usecase';
-
-const CryptographyAdapterMock = {
-  hash: jest.fn(),
-};
+import {
+  FindUserByIdUseCase,
+  IFindUserByIdUseCase,
+} from './find-user-by-id.usecase';
 
 const makeSut = async () => {
   const moduleRef = await Test.createTestingModule({
     providers: [
-      CreateUserUseCase,
-      {
-        provide: 'CryptographyAdapter',
-        useValue: CryptographyAdapterMock,
-      },
+      FindUserByIdUseCase,
       {
         provide: UserRepository,
         useFactory: () => {
@@ -26,7 +22,8 @@ const makeSut = async () => {
   }).compile();
 
   return {
-    createUserUseCase: moduleRef.get<CreateUserUseCase>(CreateUserUseCase),
+    findByIdUserUseCase:
+      moduleRef.get<IFindUserByIdUseCase>(FindUserByIdUseCase),
     userRepository: moduleRef.get<IUserRepository>(UserRepository),
   };
 };
@@ -39,21 +36,17 @@ const userEntity = {
 
 describe('Create user use case', () => {
   test('should be defined', async () => {
-    const { createUserUseCase, userRepository } = await makeSut();
+    const { findByIdUserUseCase, userRepository } = await makeSut();
 
-    expect(createUserUseCase).toBeDefined();
+    expect(findByIdUserUseCase).toBeDefined();
     expect(userRepository).toBeDefined();
   });
 
-  test('should be create valid user', async () => {
-    const { createUserUseCase, userRepository } = await makeSut();
+  test('should be exception for user not found', async () => {
+    const { findByIdUserUseCase } = await makeSut();
 
-    const repositorySpy = jest.spyOn(userRepository, 'create');
-
-    const result = await createUserUseCase.execute(userEntity);
-
-    expect(result.email).toBe(userEntity.email);
-
-    expect(repositorySpy).toBeCalledTimes(1);
+    expect(
+      findByIdUserUseCase.execute({ id: 'invalid-id' }),
+    ).rejects.toBeInstanceOf(UnprocessableEntityException);
   });
 });
