@@ -2,6 +2,8 @@ export type UnmarshalledUser = {
   id?: string;
   name: string;
   email: string;
+  isConfirmed: boolean;
+  isActive: boolean;
   password: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -29,6 +31,8 @@ export class User {
       name: this.name,
       email: this.email,
       password: this.password,
+      isConfirmed: this.isConfirmed,
+      isActive: this.isActive,
     };
   }
 
@@ -51,7 +55,16 @@ export class User {
   public get createdAt(): Date {
     return this.user.createdAt;
   }
+
   public get updatedAt(): Date {
     return this.user.updatedAt;
+  }
+
+  public get isActive(): boolean {
+    return this.user.isActive;
+  }
+
+  public get isConfirmed(): boolean {
+    return this.user.isConfirmed;
   }
 }
