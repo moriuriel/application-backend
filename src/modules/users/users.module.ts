@@ -1,6 +1,25 @@
 import { PrismaService } from '@Infra/prisma';
 import { Module } from '@nestjs/common';
-import { UserController } from './http/controllers/users.controller';
+import { CreateUserUseCase } from './application/use-cases';
+import { UserController } from './presentations/controllers/users.controller';
+import { UserRepository } from './infrastructure/repositories/user.repository';
+import { BcryptAdapter } from '@Infra/cryptography';
+import { FindUserByIdUseCase } from './application/use-cases/find-user-by-id.usecase';
 
-@Module({ controllers: [UserController], providers: [PrismaService] })
+@Module({
+  controllers: [UserController],
+  providers: [
+    PrismaService,
+    CreateUserUseCase,
+    FindUserByIdUseCase,
+    UserRepository,
+    {
+      provide: 'CryptographyAdapter',
+      useFactory: () => {
+        return new BcryptAdapter(10);
+      },
+    },
+  ],
+  exports: [UserRepository],
+})
 export class UsersModule {}
