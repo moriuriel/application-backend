@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateUserDto, CreateUserOutput } from './dtos/create-user.dto';
+import { CreateUserDto, UserOutput } from './dtos/create-user.dto';
 
 @Controller({ path: 'users', version: '1' })
 @ApiTags('Usuários')
@@ -24,7 +24,7 @@ export class UserController {
   ) {}
 
   @Post()
-  @ApiCreatedResponse({ type: CreateUserOutput })
+  @ApiCreatedResponse({ type: UserOutput })
   async create(@Body() body: CreateUserDto, @Res() response: Response) {
     const output = await this.createUserUsecase.execute(body);
 
@@ -33,7 +33,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/me')
-  @ApiOkResponse({ type: CreateUserOutput })
+  @ApiOkResponse({ type: UserOutput })
   async find(@Request() req, @Res() response: Response) {
     const { id } = req.user;
 
