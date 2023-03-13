@@ -11,7 +11,7 @@ import {
   Response as Res,
   UseGuards,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserDto, CreateUserOutput } from './dtos/create-user.dto';
 
@@ -33,6 +33,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/me')
+  @ApiOkResponse({ type: CreateUserOutput })
   async find(@Request() req, @Res() response: Response) {
     const { id } = req.user;
 

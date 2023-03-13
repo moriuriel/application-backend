@@ -8,13 +8,15 @@ datasource db {
 }
 
 model Users {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  Cards     Cards?
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  isActive    Boolean  @default(false)
+  isConfirmed Boolean  @default(false)
+  Cards       Cards?
 
   @@map("users")
 }
@@ -26,6 +28,7 @@ model Cards {
   ownerId   String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  isActive  Boolean  @default(true)
 
   @@map("cards")
 }
