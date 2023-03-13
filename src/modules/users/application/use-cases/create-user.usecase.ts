@@ -2,9 +2,9 @@ import { Hasher } from '@Data/protocols/cryptography';
 import { User } from '@Modules/users/domain/entites/user.entity';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
 import {
-  CreateUserPresenter,
-  CreateUserOutput,
-} from '@Modules/users/presentations/presenter/create-user.presenter';
+  UserOutput,
+  UserPresenter,
+} from '@Modules/users/presentations/presenter/user.presenter';
 import {
   Inject,
   Injectable,
@@ -19,7 +19,7 @@ type CreateUserInput = {
 };
 
 export interface ICreateUserUseCase {
-  execute(input: CreateUserInput): Promise<CreateUserOutput>;
+  execute(input: CreateUserInput): Promise<UserOutput>;
 }
 
 @Injectable()
@@ -29,7 +29,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     @Inject('CryptographyAdapter') private readonly haser: Hasher,
   ) {}
 
-  public async execute(input: CreateUserInput): Promise<CreateUserOutput> {
+  public async execute(input: CreateUserInput): Promise<UserOutput> {
     const userAlereadyExists = await this.userRepository.findByEmail(
       input.email,
     );
@@ -48,6 +48,6 @@ export class CreateUserUseCase implements ICreateUserUseCase {
 
     const createdUser = await this.userRepository.create(user);
 
-    return CreateUserPresenter.output(createdUser);
+    return UserPresenter.output(createdUser);
   }
 }

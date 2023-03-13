@@ -1,6 +1,6 @@
 import { User } from '@Modules/users/domain/entites/user.entity';
 
-export type CreateUserOutput = {
+export type UserOutput = {
   id: string;
   name: string;
   email: string;
@@ -8,8 +8,8 @@ export type CreateUserOutput = {
   updatedAt: Date;
 };
 
-export class CreateUserPresenter {
-  static output(user: User): CreateUserOutput {
+export class UserPresenter {
+  static output(user: User): UserOutput {
     return {
       id: user.id,
       name: user.name,
