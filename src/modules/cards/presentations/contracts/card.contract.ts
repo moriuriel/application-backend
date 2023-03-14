@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CardInput {
   @ApiProperty()
-  name: string;
+  tag: string;
 }
 
 export class CardOutput {
