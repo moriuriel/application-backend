@@ -1,4 +1,4 @@
-type UnmarshalledCard = {
+export type UnmarshalledCard = {
   id?: string;
   tag: string;
   ownerId: string;
@@ -6,6 +6,7 @@ type UnmarshalledCard = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
 export class Card {
   private readonly card: UnmarshalledCard;
 
@@ -13,8 +14,21 @@ export class Card {
     this.card = props;
   }
 
+  public static create(props: UnmarshalledCard) {
+    if (props?.id) {
+      const instance = new Card(props);
+
+      return instance;
+    }
+    return null;
+  }
+
   public get id(): string {
     return this.card.id;
+  }
+
+  public get ownerId(): string {
+    return this.card.ownerId;
   }
 
   public get tag(): string {
