@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { UserInput, UserOutput } from './contracts/create-user.contract';
+import { UserInput, UserOutput } from './contracts/user.contract';
 
 @Controller({ path: 'users', version: '1' })
 @ApiTags('Usuários')
