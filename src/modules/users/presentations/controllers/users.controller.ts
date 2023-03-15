@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateUserDto, UserOutput } from './dtos/create-user.dto';
+import { UserInput, UserOutput } from '../contracts/user.contract';
 
 @Controller({ path: 'users', version: '1' })
 @ApiTags('Usuários')
@@ -25,7 +25,7 @@ export class UserController {
 
   @Post()
   @ApiCreatedResponse({ type: UserOutput })
-  async create(@Body() body: CreateUserDto, @Res() response: Response) {
+  async create(@Body() body: UserInput, @Res() response: Response) {
     const output = await this.createUserUsecase.execute(body);
 
     return response.status(HttpStatus.CREATED).json(output);

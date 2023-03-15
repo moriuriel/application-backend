@@ -1,5 +1,5 @@
 import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
-import { InMemoryUserRepository } from '@Modules/users/infrastructure/repositories/InMemory/inMemoryUser.repository';
+import { InMemoryUserRepository } from '@Modules/users/infrastructure/repositories/InMemory/in-memory-user.repository';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
 import { Test } from '@nestjs/testing';
 import { CreateUserUseCase } from './create-user.usecase';
