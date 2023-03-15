@@ -13,12 +13,12 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CardInput, CardOutput } from '../contracts/card.contract';
 
+@UseGuards(JwtAuthGuard)
 @Controller({ path: 'cards', version: '1' })
 @ApiTags('Cartões')
-export class CardControlloer {
+export class CardController {
   constructor(private readonly createCardUseCase: CreateCardUseCase) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiCreatedResponse({ type: CardOutput })
   async create(
