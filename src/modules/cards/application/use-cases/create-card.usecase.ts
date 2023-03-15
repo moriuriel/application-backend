@@ -1,5 +1,6 @@
 import { Card } from '@Modules/cards/domain/entities/Card';
 import { CardRepository } from '@Modules/cards/infrastructure/repositories/card.repository';
+import { CardOutput } from '@Modules/cards/presentations/presenter/create-card.presenter';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 
 type CreateCardInput = {
@@ -8,14 +9,14 @@ type CreateCardInput = {
 };
 
 export interface ICreateCardUseCase {
-  execute(input: CreateCardInput): Promise<unknown>;
+  execute(input: CreateCardInput): Promise<CardOutput>;
 }
 
 @Injectable()
 export class CreateCardUseCase implements ICreateCardUseCase {
   constructor(private readonly cardRepository: CardRepository) {}
 
-  public async execute(input: CreateCardInput): Promise<unknown> {
+  public async execute(input: CreateCardInput): Promise<CardOutput> {
     const cardAlereadyExists = await this.cardRepository.findByTagAndOwnerId(
       input.tag,
       input.ownerId,

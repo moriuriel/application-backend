@@ -9,12 +9,12 @@ type FindCardByUserInput = {
   ownerId: string;
 };
 
-export interface IFindCardByOwnerUsecase {
+export interface IFindCardByOwnerUseCase {
   execute(input: FindCardByUserInput): Promise<CardByOwnerOutput[]>;
 }
 
 @Injectable()
-export class FindCardByOwnerUsecase implements IFindCardByOwnerUsecase {
+export class FindCardByOwnerUseCase implements IFindCardByOwnerUseCase {
   constructor(private readonly cardRepository: CardRepository) {}
 
   async execute(input: FindCardByUserInput): Promise<CardByOwnerOutput[]> {

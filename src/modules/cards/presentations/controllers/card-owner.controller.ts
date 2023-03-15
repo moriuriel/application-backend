@@ -1,5 +1,5 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
-import { FindCardByOwnerUsecase } from '@Modules/cards/application/use-cases/find-card-by-owner.useecase';
+import { FindCardByOwnerUseCase } from '@Modules/cards/application/use-cases/find-card-by-owner.useecase';
 import {
   Controller,
   Get,
@@ -17,7 +17,7 @@ import { CardOutput } from '../contracts/card.contract';
 @ApiTags('Cartões')
 export class CardOwnerControlloer {
   constructor(
-    private readonly findCardByOwnerUseCase: FindCardByOwnerUsecase,
+    private readonly findCardByOwnerUseCase: FindCardByOwnerUseCase,
   ) {}
 
   @Get('owner')

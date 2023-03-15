@@ -1,7 +1,7 @@
 import { PrismaService } from '@Infra/prisma';
 import { Module } from '@nestjs/common';
 import { CreateCardUseCase } from './application/use-cases/create-card.usecase';
-import { FindCardByOwnerUsecase } from './application/use-cases/find-card-by-owner.useecase';
+import { FindCardByOwnerUseCase } from './application/use-cases/find-card-by-owner.useecase';
 import { CardRepository } from './infrastructure/repositories/card.repository';
 import { CardOwnerControlloer } from './presentations/controllers/card-owner.controller';
 import { CardController } from './presentations/controllers/card.controller';
@@ -12,7 +12,7 @@ import { CardController } from './presentations/controllers/card.controller';
     PrismaService,
     CardRepository,
     CreateCardUseCase,
-    FindCardByOwnerUsecase,
+    FindCardByOwnerUseCase,
   ],
 })
 export class CardsModule {}
