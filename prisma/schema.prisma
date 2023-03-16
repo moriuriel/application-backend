@@ -36,7 +36,7 @@ model Cards {
 
 model Categories {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String
   owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
   createdAt DateTime @default(now())
