@@ -1,3 +1,6 @@
+import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
+import { Category } from '@Modules/categories/domain/entities/Category';
+import { CategoryRepository } from '@Modules/categories/infrastructure/repository/category.repository';
 import {
   Body,
   Controller,
@@ -7,6 +10,7 @@ import {
   Put,
   Request,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiAcceptedResponse,
@@ -21,9 +25,12 @@ import {
   UpdateCategoryInput,
 } from '../contracts/categories.contract';
 
+@UseGuards(JwtAuthGuard)
 @Controller({ path: 'categories', version: '1' })
 @ApiTags('Categorias')
 export class CategoriesController {
+  constructor(private readonly repo: CategoryRepository) {}
+
   @Post()
   @ApiCreatedResponse({ type: CategoryOutput })
   async create(
@@ -34,7 +41,9 @@ export class CategoriesController {
     const { name } = body;
     const { id } = req.user;
 
-    const output = { name, id };
+    const category = new Category({ name, ownerId: id, isActive: true });
+
+    const output = await this.repo.create(category);
 
     return response.status(HttpStatus.CREATED).json(output);
   }
@@ -56,10 +65,10 @@ export class CategoriesController {
     @Res() response: Response,
     @Request() req,
   ) {
-    const { name } = body;
+    const { name, isActive } = body;
     const { id } = req.user;
 
-    const output = { name, id };
+    const output = { name, id, isActive };
 
     return response.status(HttpStatus.ACCEPTED).json(output);
   }
