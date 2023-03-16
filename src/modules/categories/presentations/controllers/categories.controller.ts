@@ -1,6 +1,6 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
-import { Category } from '@Modules/categories/domain/entities/Category';
-import { CategoryRepository } from '@Modules/categories/infrastructure/repository/category.repository';
+import { CreateCategoryUseCase } from '@Modules/categories/application/use-cases/create-category.usecase';
+import { FindCategoriesByOwnerUseCase } from '@Modules/categories/application/use-cases/find-category-owner.usecase';
 import {
   Body,
   Controller,
@@ -29,7 +29,10 @@ import {
 @Controller({ path: 'categories', version: '1' })
 @ApiTags('Categorias')
 export class CategoriesController {
-  constructor(private readonly repo: CategoryRepository) {}
+  constructor(
+    private readonly createCategoryUseCase: CreateCategoryUseCase,
+    private readonly findCategoriesByOwnerUseCase: FindCategoriesByOwnerUseCase,
+  ) {}
 
   @Post()
   @ApiCreatedResponse({ type: CategoryOutput })
@@ -41,9 +44,10 @@ export class CategoriesController {
     const { name } = body;
     const { id } = req.user;
 
-    const category = new Category({ name, ownerId: id, isActive: true });
-
-    const output = await this.repo.create(category);
+    const output = await this.createCategoryUseCase.execute({
+      name,
+      ownerId: id,
+    });
 
     return response.status(HttpStatus.CREATED).json(output);
   }
@@ -53,7 +57,9 @@ export class CategoriesController {
   async index(@Res() response: Response, @Request() req) {
     const { id } = req.user;
 
-    const output = { id };
+    const output = await this.findCategoriesByOwnerUseCase.execute({
+      ownerId: id,
+    });
 
     return response.status(HttpStatus.CREATED).json(output);
   }
