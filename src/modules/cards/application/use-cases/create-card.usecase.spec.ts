@@ -1,6 +1,6 @@
 import { Card } from '@Modules/cards/domain/entities/Card';
 import { CardRepository } from '@Modules/cards/infrastructure/repositories/card.repository';
-import { InMemoryCardRepository } from '@Modules/cards/infrastructure/repositories/inMemory/in-memory-card.repository';
+import { InMemoryCardRepository } from '@Modules/cards/infrastructure/repositories/in-memory/in-memory-card.repository';
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CreateCardUseCase } from './create-card.usecase';
