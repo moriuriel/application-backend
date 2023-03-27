@@ -1,9 +1,7 @@
 import { ICardRepository } from '@Modules/cards/data/protocols/repositories/card.repository';
 import { Card, UnmarshalledCard } from '@Modules/cards/domain/entities/Card';
-import { Injectable } from '@nestjs/common';
 import { uuid } from 'uuidv4';
 
-@Injectable()
 export class InMemoryCardRepository implements ICardRepository {
   private cards: Card[] = [];
 

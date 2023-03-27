@@ -16,7 +16,7 @@ export class CardRepository implements ICardRepository {
       },
     });
 
-    return Card.create(rawCard);
+    return CardMapper.toDomain(rawCard);
   }
 
   async findByTagAndOwnerId(tag: string, ownerId: string): Promise<Card> {
