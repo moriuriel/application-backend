@@ -15,7 +15,7 @@ import { CardOutput } from '../contracts/card.contract';
 @UseGuards(JwtAuthGuard)
 @Controller({ path: 'cards', version: '1' })
 @ApiTags('Cartões')
-export class CardOwnerControlloer {
+export class CardOwnerController {
   constructor(
     private readonly findCardByOwnerUseCase: FindCardByOwnerUseCase,
   ) {}
