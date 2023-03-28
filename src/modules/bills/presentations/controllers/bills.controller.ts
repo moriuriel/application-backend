@@ -7,13 +7,14 @@ import {
   Get,
   HttpStatus,
   Post,
+  Query,
   Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { BillInput, BillOutput } from '../contracts/bill.contract';
+import { BillInput, BillOutput, BillQuery } from '../contracts/bill.contract';
 
 @UseGuards(JwtAuthGuard)
 @Controller({ path: 'bills', version: '1' })
@@ -26,10 +27,18 @@ export class BillsController {
 
   @Get()
   @ApiCreatedResponse({ type: BillOutput, isArray: true })
-  async index(@Request() req, @Res() response: Response) {
+  async index(
+    @Query() query: BillQuery,
+    @Request() req,
+    @Res() response: Response,
+  ) {
     const { id } = req.user;
 
     const output = await this.findBillsUsecase.execute({
+      isPaid: Boolean(query.isPaid),
+      hasInstallments: Boolean(query.hasInstallments),
+      cardId: query.cardId,
+      categoriesId: query.categoriesId,
       ownerId: id,
     });
 

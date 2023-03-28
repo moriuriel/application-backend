@@ -3,7 +3,7 @@ import { Bill } from '@Modules/bills/domain/entities/Bill';
 export type FindBillsInput = {
   ownerId: string;
   isPaid?: boolean;
-  hasInstallment?: boolean;
+  hasInstallments?: boolean;
   categoriesId?: string;
   cardId?: string;
 };

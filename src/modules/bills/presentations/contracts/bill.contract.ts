@@ -39,3 +39,14 @@ export class BillOutput {
   @ApiProperty()
   updatedAt: string;
 }
+
+export class BillQuery {
+  @ApiProperty()
+  cardId: string;
+  @ApiProperty()
+  hasInstallments: boolean;
+  @ApiProperty()
+  isPaid: boolean;
+  @ApiProperty()
+  categoriesId: string;
+}

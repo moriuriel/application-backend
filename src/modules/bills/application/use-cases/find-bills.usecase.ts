@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common';
 export type FindBillsInput = {
   ownerId: string;
   isPaid?: boolean;
-  hasInstallment?: boolean;
+  hasInstallments?: boolean;
   categoriesId?: string;
   cardId?: string;
 };

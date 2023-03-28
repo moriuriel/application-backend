@@ -31,14 +31,14 @@ export class BillRepository implements IBillRepository {
   }
 
   public async findBills(input: FindBillsInput): Promise<Bill[]> {
-    const { ownerId, cardId, categoriesId, hasInstallment, isPaid } = input;
+    const { ownerId, cardId, categoriesId, hasInstallments, isPaid } = input;
 
     const rawBills = await this.prismaService.bills.findMany({
       where: {
         ownerId,
         ...(cardId && { cardId }),
         ...(categoriesId && { categoriesId }),
-        ...(hasInstallment && { hasInstallment }),
+        ...(hasInstallments && { hasInstallments }),
         ...(isPaid && { isPaid }),
       },
     });
