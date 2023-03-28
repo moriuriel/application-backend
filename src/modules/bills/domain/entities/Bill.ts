@@ -2,6 +2,7 @@ export type UnmarshalledBill = {
   id?: string;
   title: string;
   tag: string;
+  amount: number;
   hasInstallments: boolean;
   isPaid: boolean;
   cardId: string;
@@ -65,5 +66,9 @@ export class Bill {
 
   public get updatedAt(): Date {
     return this.bill.updatedAt;
+  }
+
+  public get amount(): number {
+    return this.bill.amount;
   }
 }

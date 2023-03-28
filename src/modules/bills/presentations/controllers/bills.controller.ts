@@ -14,7 +14,7 @@ import { Response } from 'express';
 import { BillInput, BillOutput } from '../contracts/bill.contract';
 
 @UseGuards(JwtAuthGuard)
-@Controller({ path: 'contas', version: '1' })
+@Controller({ path: 'bills', version: '1' })
 @ApiTags('Contas')
 export class BillsController {
   constructor(private readonly createBillUsecase: CreateBillUsecase) {}

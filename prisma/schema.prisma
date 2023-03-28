@@ -53,6 +53,7 @@ model Bills {
   id              String     @id @default(uuid())
   title           String
   tag             String
+  amount          Float
   owner           Users      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId         String
   card            Cards      @relation(fields: [cardId], references: [id], onDelete: Cascade)

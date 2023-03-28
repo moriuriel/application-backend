@@ -14,6 +14,7 @@ type CreateBillInput = {
   cardId: string;
   ownerId: string;
   categoriesId: string;
+  amount: number;
 };
 
 export interface ICreateBillUsecase {

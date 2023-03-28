@@ -4,6 +4,8 @@ export class BillInput {
   @ApiProperty()
   title: string;
   @ApiProperty()
+  amount: number;
+  @ApiProperty()
   tag: string;
   @ApiProperty()
   cardId: string;
@@ -20,6 +22,8 @@ export class BillOutput {
   id: string;
   @ApiProperty()
   title: string;
+  @ApiProperty()
+  amount: number;
   @ApiProperty()
   tag: string;
   @ApiProperty()

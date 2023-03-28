@@ -14,6 +14,7 @@ export class BillMapper {
       hasInstallments: bill.hasInstallments,
       categoriesId: bill.categoriesId,
       isPaid: bill.isPaid,
+      amount: bill.amount,
     };
   }
 }
