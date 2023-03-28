@@ -2,7 +2,7 @@ import { UserAuthUseCase } from '@Modules/auth/application/use-cases/user-auth.u
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { AuthOutput, AuthInput } from './contracts/user-auth.contract';
+import { AuthOutput, AuthInput } from '../contracts/user-auth.contract';
 
 @Controller({ path: 'authenticate', version: '1' })
 @ApiTags('Autenticação')
