@@ -2,7 +2,7 @@ import { loadEnvironmentConfig } from '@Infra/configuration';
 import { BcryptAdapter } from '@Infra/cryptography';
 import { UsersModule } from '@Modules/users/users.module';
 import { Module } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './application/strategies/jwt.strategy';
 import { UserAuthUseCase } from './application/use-cases/user-auth.usecase';
