@@ -8,9 +8,11 @@ export class BillInput {
   @ApiProperty()
   cardId: string;
   @ApiProperty()
-  hasInstallments: string;
+  hasInstallments: boolean;
   @ApiProperty()
-  categoryId: string;
+  isPaid: boolean;
+  @ApiProperty()
+  categoriesId: string;
 }
 
 export class BillOutput {
