@@ -31,8 +31,6 @@ export class BillOutput {
   @ApiProperty()
   ownerId: string;
   @ApiProperty()
-  hasInstallments: string;
-  @ApiProperty()
   isPaid: string;
   @ApiProperty()
   categoryId: string;

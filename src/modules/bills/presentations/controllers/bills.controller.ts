@@ -1,8 +1,10 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
 import { CreateBillUsecase } from '@Modules/bills/application/use-cases/create-bill.usecase';
+import { FindBillsUsecase } from '@Modules/bills/application/use-cases/find-bills.usecase';
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
   Request,
@@ -17,7 +19,22 @@ import { BillInput, BillOutput } from '../contracts/bill.contract';
 @Controller({ path: 'bills', version: '1' })
 @ApiTags('Contas')
 export class BillsController {
-  constructor(private readonly createBillUsecase: CreateBillUsecase) {}
+  constructor(
+    private readonly createBillUsecase: CreateBillUsecase,
+    private readonly findBillsUsecase: FindBillsUsecase,
+  ) {}
+
+  @Get()
+  @ApiCreatedResponse({ type: BillOutput, isArray: true })
+  async index(@Request() req, @Res() response: Response) {
+    const { id } = req.user;
+
+    const output = await this.findBillsUsecase.execute({
+      ownerId: id,
+    });
+
+    return response.status(HttpStatus.OK).json(output);
+  }
 
   @Post()
   @ApiCreatedResponse({ type: BillOutput })

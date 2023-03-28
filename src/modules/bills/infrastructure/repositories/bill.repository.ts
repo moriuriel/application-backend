@@ -1,5 +1,8 @@
 import { PrismaService } from '@Infra/prisma';
-import { IBillRepository } from '@Modules/bills/data/protocols/repositories/bill.repository';
+import {
+  FindBillsInput,
+  IBillRepository,
+} from '@Modules/bills/data/protocols/repositories/bill.repository';
 import { Bill } from '@Modules/bills/domain/entities/Bill';
 import { Injectable } from '@nestjs/common';
 import { BillMapper } from '../mappers/bill.mapper';
@@ -16,7 +19,7 @@ export class BillRepository implements IBillRepository {
     return BillMapper.toDomain(rawBill);
   }
 
-  public async finByIdAndOwnerId(
+  public async findByIdAndOwnerId(
     billId: string,
     ownerId: string,
   ): Promise<Bill> {
@@ -25,5 +28,21 @@ export class BillRepository implements IBillRepository {
     });
 
     return BillMapper.toDomain(rawBill);
+  }
+
+  public async findBills(input: FindBillsInput): Promise<Bill[]> {
+    const { ownerId, cardId, categoriesId, hasInstallment, isPaid } = input;
+
+    const rawBills = await this.prismaService.bills.findMany({
+      where: {
+        ownerId,
+        ...(cardId && { cardId }),
+        ...(categoriesId && { categoriesId }),
+        ...(hasInstallment && { hasInstallment }),
+        ...(isPaid && { isPaid }),
+      },
+    });
+
+    return rawBills.map((raw) => BillMapper.toDomain(raw));
   }
 }
