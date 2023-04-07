@@ -9,12 +9,18 @@ type UserAuthInput = {
   password: string;
 };
 
-type UserAuthOutput = {
+export type AuthUserOutput = {
+  name: string;
+  email: string;
+};
+
+type AuthOutput = {
   token: string;
+  user: AuthUserOutput;
 };
 
 export interface IUserAuthUseCase {
-  execute(input: UserAuthInput): Promise<UserAuthOutput>;
+  execute(input: UserAuthInput): Promise<AuthOutput>;
 }
 
 const { jwt } = loadEnvironmentConfig();
@@ -27,7 +33,7 @@ export class UserAuthUseCase implements IUserAuthUseCase {
     @Inject('CryptographyAdapter') private readonly hashComparer: HashComparer,
   ) {}
 
-  async execute(input: UserAuthInput): Promise<UserAuthOutput> {
+  async execute(input: UserAuthInput): Promise<AuthOutput> {
     const user = await this.userRepository.findByEmail(input.email);
 
     if (!user) {
@@ -47,6 +53,10 @@ export class UserAuthUseCase implements IUserAuthUseCase {
 
     return {
       token: this.jwtService.sign(payload, { secret: jwt.secret }),
+      user: {
+        name: user.name,
+        email: user.email,
+      },
     };
   }
 }
