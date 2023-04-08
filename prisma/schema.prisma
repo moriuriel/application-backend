@@ -64,4 +64,6 @@ model Bills {
   hasInstallments Boolean    @default(false)
   Categories      Categories @relation(fields: [categoriesId], references: [id])
   categoriesId    String
+
+  @@map("bills")
 }
