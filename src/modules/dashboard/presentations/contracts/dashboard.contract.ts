@@ -5,6 +5,8 @@ export class CardStatsOutput {
   tag: string;
   @ApiProperty()
   total: number;
+  @ApiProperty()
+  totalPercent: number;
 }
 
 export class BillsStatsOutput {
@@ -23,4 +25,6 @@ export class StatsOutput {
   cards: CardStatsOutput[];
   @ApiProperty()
   bills: BillsStatsOutput;
+  @ApiProperty()
+  totalPaid: number;
 }
