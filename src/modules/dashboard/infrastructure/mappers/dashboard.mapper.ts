@@ -1,4 +1,5 @@
 import {
+  BillsPaidInLastMonthOutput,
   BillsPaidOutput,
   CardStatsOutput,
 } from '@Modules/dashboard/data/protocols/dashboard.repository';
@@ -7,15 +8,21 @@ export class DashboardMapper {
   public static toMostUsedCards(raw: CardStatsOutput): CardStatsOutput {
     return {
       tag: raw.tag,
-      total: raw.total,
+      total: Number(raw.total),
     };
   }
 
-  public static toStatsBills(raw: BillsPaidOutput): BillsPaidOutput {
+  public static toAmountPaid(raw: BillsPaidOutput): BillsPaidOutput {
     return {
       amountPaid: raw[0].amountPaid,
     };
   }
 
-  p;
+  public static toAmountPaidInLastMonth(
+    raw: unknown,
+  ): BillsPaidInLastMonthOutput {
+    return {
+      amountPaidInLastMonth: raw[0].amountPaid,
+    };
+  }
 }

@@ -7,7 +7,17 @@ export type BillsPaidOutput = {
   amountPaid: number;
 };
 
+export type BillsPaidInLastMonthOutput = {
+  amountPaidInLastMonth: number;
+};
+
 export interface IDashboardRepository {
   getMostUsedCards(ownerId: string): Promise<CardStatsOutput[]>;
-  getBillsIsPaid(ownerId: string): Promise<BillsPaidOutput>;
+  getBillsCurrentMonth(
+    ownerId: string,
+    isPaid: boolean,
+  ): Promise<BillsPaidOutput>;
+  getBillsIsPaidInLastMonth(
+    ownerId: string,
+  ): Promise<BillsPaidInLastMonthOutput>;
 }
