@@ -4,7 +4,7 @@ export class CardStatsOutput {
   @ApiProperty()
   tag: string;
   @ApiProperty()
-  total: string;
+  total: number;
 }
 
 export class BillsStatsOutput {

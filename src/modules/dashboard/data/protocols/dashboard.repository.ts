@@ -1,6 +1,6 @@
 export type CardStatsOutput = {
   tag: string;
-  total: string;
+  total: number;
 };
 
 export type BillsPaidOutput = {

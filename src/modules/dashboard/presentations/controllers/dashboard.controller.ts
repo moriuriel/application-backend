@@ -1,5 +1,5 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
-import { DashboardRepository } from '@Modules/dashboard/infrastructure/repository/dashboard.repository';
+import { GetStastUseCase } from '@Modules/dashboard/application/use-cases/get-stats.usecase';
 import {
   Controller,
   Get,
@@ -16,14 +16,13 @@ import { StatsOutput } from '../contracts/dashboard.contract';
 @Controller({ path: 'dashboard', version: '1' })
 @ApiTags('Dashboard')
 export class DashboardController {
-  constructor(private readonly dashboardRepository: DashboardRepository) {}
+  constructor(private readonly getStatsUseCase: GetStastUseCase) {}
   @Get('stats')
   @ApiOkResponse({ type: StatsOutput })
   async index(@Res() response: Response, @Request() req) {
     const { id } = req.user;
-    const result = await this.dashboardRepository.getBillsIsPaid(id);
-    const cards = await this.dashboardRepository.getMostUsedCards(id);
-    console.log(result);
-    return response.status(HttpStatus.OK).json({ result, cards });
+    const output = await this.getStatsUseCase.execute({ ownerId: id });
+
+    return response.status(HttpStatus.OK).json(output);
   }
 }
