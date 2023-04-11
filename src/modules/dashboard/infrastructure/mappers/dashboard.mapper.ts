@@ -14,7 +14,7 @@ export class DashboardMapper {
 
   public static toAmountPaid(raw: BillsPaidOutput): BillsPaidOutput {
     return {
-      amountPaid: raw[0].amountPaid,
+      amountPaid: raw[0].amountpaid,
     };
   }
 
@@ -22,7 +22,7 @@ export class DashboardMapper {
     raw: unknown,
   ): BillsPaidInLastMonthOutput {
     return {
-      amountPaidInLastMonth: raw[0].amountPaid,
+      amountPaidInLastMonth: raw[0].amountpaid,
     };
   }
 }

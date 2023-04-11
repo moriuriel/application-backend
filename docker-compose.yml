@@ -1,0 +1,34 @@
+version: '3'
+services:
+  mysql:
+    container_name: minhas-contas-db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: contas-app
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./prisma/data:/var/lib/mysql
+    networks:
+      - minhas-contas-network
+  app:
+    container_name: minhas-contas-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - minhas-contas-network
+networks:
+  minhas-contas-network:
+    external: true
