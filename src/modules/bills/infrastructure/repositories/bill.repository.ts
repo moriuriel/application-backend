@@ -14,7 +14,17 @@ export class BillRepository implements IBillRepository {
   public async create(bill: Bill): Promise<Bill> {
     const billData = BillMapper.toPersistence(bill);
 
-    const rawBill = await this.prismaService.bills.create({ data: billData });
+    const rawBill = await this.prismaService.bills.create({
+      data: {
+        tag: billData.tag,
+        title: billData.title,
+        amount: billData.amount,
+        cardId: billData.cardId,
+        categoriesId: billData.categoriesId,
+        hasInstallments: billData.hasInstallments,
+        ownerId: billData.ownerId,
+      },
+    });
 
     return BillMapper.toDomain(rawBill);
   }
@@ -41,8 +51,8 @@ export class BillRepository implements IBillRepository {
         ...(hasInstallments && { hasInstallments }),
         ...(isPaid && { isPaid }),
       },
+      include: { card: true, Categories: true },
     });
-
     return rawBills.map((raw) => BillMapper.toDomain(raw));
   }
 }

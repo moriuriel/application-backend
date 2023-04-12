@@ -33,6 +33,10 @@ export class BillOutput {
   @ApiProperty()
   isPaid: string;
   @ApiProperty()
+  cardName: string;
+  @ApiProperty()
+  categoryName: string;
+  @ApiProperty()
   categoryId: string;
   @ApiProperty()
   createdAt: string;

@@ -4,8 +4,11 @@ export type FindBillsOutput = {
   id: string;
   title: string;
   tag: string;
+  amount: number;
   isPaid: boolean;
   cardId: string;
+  cardName: string;
+  categoryName: string;
   ownerId: string;
   categoriesId: string;
   createdAt: Date;
@@ -19,10 +22,13 @@ export class FindBillsPresenter {
         id: bill.id,
         title: bill.title,
         tag: bill.tag,
+        amount: Number(bill.amount.toFixed(2)),
         isPaid: bill.isPaid,
         cardId: bill.cardId,
         ownerId: bill.ownerId,
         categoriesId: bill.categoriesId,
+        cardName: bill.cardTag,
+        categoryName: bill.categoryName,
         createdAt: bill.createdAt,
         updatedAt: bill.updatedAt,
       };

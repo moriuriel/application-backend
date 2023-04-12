@@ -1,3 +1,5 @@
+import { Cards, Categories } from '@prisma/client';
+
 export type UnmarshalledBill = {
   id?: string;
   title: string;
@@ -8,6 +10,8 @@ export type UnmarshalledBill = {
   cardId: string;
   ownerId: string;
   categoriesId: string;
+  card?: Cards;
+  Categories?: Categories;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -70,5 +74,13 @@ export class Bill {
 
   public get amount(): number {
     return this.bill.amount;
+  }
+
+  public get categoryName(): string {
+    return this.bill.Categories.name;
+  }
+
+  public get cardTag(): string {
+    return this.bill.card.tag;
   }
 }
