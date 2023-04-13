@@ -4,6 +4,7 @@ import { FindCategoriesByOwnerUseCase } from '@Modules/categories/application/us
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Post,
@@ -67,6 +68,21 @@ export class CategoriesController {
   @Put(':category_id')
   @ApiAcceptedResponse({ type: CategoryOutput })
   async update(
+    @Body() body: UpdateCategoryInput,
+    @Res() response: Response,
+    @Request() req,
+  ) {
+    const { name, isActive } = body;
+    const { id } = req.user;
+
+    const output = { name, id, isActive };
+
+    return response.status(HttpStatus.ACCEPTED).json(output);
+  }
+
+  @Delete(':category_id')
+  @ApiAcceptedResponse({ type: CategoryOutput })
+  async delete(
     @Body() body: UpdateCategoryInput,
     @Res() response: Response,
     @Request() req,

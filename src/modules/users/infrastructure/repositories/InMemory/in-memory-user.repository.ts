@@ -1,9 +1,9 @@
-import { uuid } from 'uuidv4';
-import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
+import { IUserRepository } from '@Modules/users/data/protocols/repositories/user.repository';
 import {
   UnmarshalledUser,
   User,
 } from '@Modules/users/domain/entites/user.entity';
+import { uuid } from 'uuidv4';
 
 export class InMemoryUserRepository implements IUserRepository {
   private users: User[] = [];
@@ -33,5 +33,9 @@ export class InMemoryUserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User> {
     return this.users?.find((user) => user.id === id);
+  }
+
+  async update(user: User): Promise<User> {
+    return user;
   }
 }
