@@ -3,7 +3,7 @@ import {
   User,
 } from '@Modules/users/domain/entites/user.entity';
 import { IUserRepository } from '@Modules/users/domain/repositories/user.repository';
-import { InMemoryUserRepository } from '@Modules/users/infrastructure/repositories/InMemory/inMemoryUser.repository';
+import { InMemoryUserRepository } from '@Modules/users/infrastructure/repositories/InMemory/in-memory-user.repository';
 import { UserRepository } from '@Modules/users/infrastructure/repositories/user.repository';
 import { UnprocessableEntityException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';

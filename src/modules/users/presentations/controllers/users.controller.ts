@@ -1,19 +1,23 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
-import { CreateUserUseCase } from '@Modules/users/application/use-cases';
-import { FindUserByIdUseCase } from '@Modules/users/application/use-cases/find-user-by-id.usecase';
+import {
+  CreateUserUseCase,
+  FindUserByIdUseCase,
+  UpdateUserUseCase,
+} from '@Modules/users/application/use-cases';
 import {
   Body,
   Controller,
   Get,
   HttpStatus,
   Post,
+  Put,
   Request,
   Response as Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateUserDto, UserOutput } from './dtos/create-user.dto';
+import { UserInput, UserOutput } from '../contracts/user.contract';
 
 @Controller({ path: 'users', version: '1' })
 @ApiTags('Usuários')
@@ -21,11 +25,12 @@ export class UserController {
   constructor(
     private readonly createUserUsecase: CreateUserUseCase,
     private readonly findUserByIdUsecase: FindUserByIdUseCase,
+    private readonly updateUserUsecase: UpdateUserUseCase,
   ) {}
 
   @Post()
   @ApiCreatedResponse({ type: UserOutput })
-  async create(@Body() body: CreateUserDto, @Res() response: Response) {
+  async create(@Body() body: UserInput, @Res() response: Response) {
     const output = await this.createUserUsecase.execute(body);
 
     return response.status(HttpStatus.CREATED).json(output);
@@ -38,6 +43,21 @@ export class UserController {
     const { id } = req.user;
 
     const output = await this.findUserByIdUsecase.execute({ id });
+
+    return response.status(HttpStatus.OK).json(output);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('/me')
+  @ApiOkResponse({ type: UserOutput })
+  async update(
+    @Request() req,
+    @Res() response: Response,
+    @Body() body: UserInput,
+  ) {
+    const { id } = req.user;
+
+    const output = await this.updateUserUsecase.execute({ id, ...body });
 
     return response.status(HttpStatus.OK).json(output);
   }

@@ -3,20 +3,22 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
 model Users {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
-  email       String   @unique
+  email       String       @unique
   password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-  isActive    Boolean  @default(false)
-  isConfirmed Boolean  @default(false)
-  Cards       Cards?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  isActive    Boolean      @default(false)
+  isConfirmed Boolean      @default(false)
+  Cards       Cards[]
+  Categories  Categories[]
+  Bills       Bills[]
 
   @@map("users")
 }
@@ -25,9 +27,43 @@ model Cards {
   id        String   @id @default(uuid())
   tag       String   @unique
   owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId   String   @unique
+  ownerId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  isActive  Boolean  @default(true)
+  Bills     Bills[]
 
   @@map("cards")
+}
+
+model Categories {
+  id        String   @id @default(uuid())
+  name      String
+  owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  isActive  Boolean  @default(true)
+  Bills     Bills[]
+
+  @@map("categories")
+}
+
+model Bills {
+  id              String     @id @default(uuid())
+  title           String
+  tag             String
+  amount          Float
+  owner           Users      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId         String
+  card            Cards      @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId          String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now())
+  isPaid          Boolean    @default(false)
+  hasInstallments Boolean    @default(false)
+  Categories      Categories @relation(fields: [categoriesId], references: [id])
+  categoriesId    String
+
+  @@map("bills")
 }
