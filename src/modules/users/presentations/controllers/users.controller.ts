@@ -1,12 +1,14 @@
 import { JwtAuthGuard } from '@Modules/auth/application/guards/jwt-auth.guard';
 import {
   CreateUserUseCase,
+  DeleteUserUseCase,
   FindUserByIdUseCase,
   UpdateUserUseCase,
 } from '@Modules/users/application/use-cases';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Post,
@@ -26,6 +28,7 @@ export class UserController {
     private readonly createUserUsecase: CreateUserUseCase,
     private readonly findUserByIdUsecase: FindUserByIdUseCase,
     private readonly updateUserUsecase: UpdateUserUseCase,
+    private readonly deleteUserUsecase: DeleteUserUseCase,
   ) {}
 
   @Post()
@@ -60,5 +63,16 @@ export class UserController {
     const output = await this.updateUserUsecase.execute({ id, ...body });
 
     return response.status(HttpStatus.OK).json(output);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/me')
+  @ApiOkResponse({ type: UserOutput })
+  async delete(@Request() req, @Res() response: Response) {
+    const { id } = req.user;
+
+    await this.deleteUserUsecase.execute({ id });
+
+    return response.status(HttpStatus.ACCEPTED).json({});
   }
 }

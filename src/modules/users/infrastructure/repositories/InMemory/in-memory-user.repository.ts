@@ -1,11 +1,10 @@
-import { IUserRepository } from '@Modules/users/data/protocols/repositories/user.repository';
 import {
   UnmarshalledUser,
   User,
 } from '@Modules/users/domain/entites/user.entity';
 import { uuid } from 'uuidv4';
 
-export class InMemoryUserRepository implements IUserRepository {
+export class InMemoryUserRepository {
   private users: User[] = [];
 
   async create(user: User): Promise<User> {

@@ -3,6 +3,7 @@ import { PrismaService } from '@Infra/prisma';
 import { Module } from '@nestjs/common';
 import {
   CreateUserUseCase,
+  DeleteUserUseCase,
   FindUserByIdUseCase,
   UpdateUserUseCase,
 } from './application/use-cases';
@@ -14,6 +15,7 @@ import { UserController } from './presentations/controllers/users.controller';
   providers: [
     PrismaService,
     CreateUserUseCase,
+    DeleteUserUseCase,
     FindUserByIdUseCase,
     UpdateUserUseCase,
     UserRepository,

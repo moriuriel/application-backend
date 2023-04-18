@@ -52,4 +52,12 @@ export class UserRepository implements IUserRepository {
 
     return UserMapper.toDomain(userRaw);
   }
+
+  async delete(id: string): Promise<void> {
+    await this.prismaService.users.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
